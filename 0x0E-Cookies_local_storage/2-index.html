@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 2</title>
+</head>
+
+<body>
+    <h1>Login to the website</h1>
+    <div>
+        <input type="text" id="firstname" placeholder="Firstname">
+        <input type="text" id="email" placeholder="Email">
+        <button id="log">Log me in</button>
+    </div>
+    <div>
+        <h1>Cookies</h1>
+        <button id="btn">Show the cookies</button>
+    </div>
+    <script>
+        document
+            .getElementById("log")
+            .addEventListener("click", function (event) {
+                event.preventDefault()
+                setCookies();
+            })
+
+        document
+            .getElementById("btn")
+            .addEventListener("click", function (event) {
+                event.preventDefault();
+                showCookies();
+            })
+
+        const setCookies = () => {
+            const firstname = document.getElementById("firstname").value;
+            const email = document.getElementById("email").value;
+            const d = new Date()
+            d.setTime(d.getTime() + 10 * 24 * 60 * 60 * 1000);
+            var expires = "expires=" + d.toUTCString();
+
+            document.cookie = `firstname=${firstname};${expires};path=/`;
+            document.cookie = `email=${email};${expires};path=/`;
+        }
+
+        const showCookies = () => {
+            const p = document.createElement('p');
+            const email = getCookie('email');
+            const firstname = getCookie('firstname');
+            p.innerHTML = `Email: ${email} - Firstname: ${firstname}`;
+            document.body.append(p);
+        }
+        const getCookie = (name) => {
+            const n = name + "="
+            const decodedCookie = decodeURIComponent(document.cookie)
+            const ca = decodedCookie.split(";")
+            for (let i = 0; i < ca.length; i++) {
+                let c = ca[i]
+                while (c.charAt(0) == " ") {
+                    c = c.substring(1)
+                }
+                if (c.indexOf(n) == 0) {
+                    return c.substring(n.length, c.length)
+                }
+            }
+            return ""
+        }
+    </script>
+</body>
+
+</html>
